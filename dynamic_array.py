@@ -73,6 +73,14 @@ class DynamicArrayADT(ABC):
         """
         pass
 
+    @abstractmethod
+    def contains(self, item_):
+        pass
+
+    @abstractmethod
+    def is_empty(self):
+        pass
+
 
 class DynamicArray(DynamicArrayADT):
     def __init__(self):
@@ -119,20 +127,15 @@ class DynamicArray(DynamicArrayADT):
         self.__n += 1
 
     def __delitem__(self, index_):
+        if index_ < 0 or index_ > self.__n:
+            print("IndexError")
+
         if self.__n <= (self.__size / 2):
             self.__resize(self.__size / 2)
 
-        if self.__n > index_:
-            if index_ < 0:
-                for i in range(index_ + self.__n, self.__n - 1):
-                    self.__arr[i] = self.__arr[i + 1]
-                self.__n -= 1
-            else:
-                for i in range(index_, self.__n - 1):
-                    self.__arr[i] = self.__arr[i + 1]
-                self.__n -= 1
-        else:
-            print("IndexError")
+        for i in range(index_, self.__n - 1):
+            self.__arr[i] = self.__arr[i + 1]
+        self.__n -= 1
 
     def remove(self, item_):
         for i in range(self.__n):
@@ -162,6 +165,12 @@ class DynamicArray(DynamicArrayADT):
             print("Not Found")
             return -1
 
+    def contains(self, item_):
+        return item_ in self.__arr
+
+    def is_empty(self):
+        return self.__n == 0
+
 
 if __name__ == "__main__":
     arr = DynamicArray()
@@ -170,6 +179,7 @@ if __name__ == "__main__":
     arr.append(3)
     print(f"len: {len(arr)}")
     print(f"arr: {arr}")
+    print(arr.is_empty())
 
     print(f"arr[0]: {arr[0]}")
     print(f"arr[1]: {arr[1]}")
@@ -195,5 +205,9 @@ if __name__ == "__main__":
     print(f"arr.search(2): {arr.search(2)}")
     print(f"arr.search(100): {arr.search(100)}")
 
+    print(f"arr.contains(2): {arr.contains(2)}")
+    print(f"arr.contains(100): {arr.contains(100)}")
+
     arr.clear()
     print(f"array after clear: {arr}")
+    print(arr.is_empty())
