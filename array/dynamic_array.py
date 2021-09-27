@@ -100,41 +100,48 @@ class DynamicArray(DynamicArrayADT):
 
     def __getitem__(self, index_):
         if index_ < 0 or index_ > self.__n:
-            return "IndexError"
+            raise Exception("Index error")
         return self.__arr[index_]
 
     def append(self, item_):
         if self.__n == self.__size:
             self.__resize(2 * self.__size)
+
         self.__arr[self.__n] = item_
         self.__n += 1
 
     def __resize(self, new_capacity_):
         new_arr = DynamicArray.__make_array(new_capacity_)
         self.__size = new_capacity_
+
         for i in range(self.__n):
             new_arr[i] = self.__arr[i]
+
         self.__arr = new_arr
 
     def insert(self, index_, item_):
         if index_ < 0 or index_ > self.__n:
-            return "IndexError"
+            raise Exception("Index error")
+
         if self.__n == self.__size:
             self.__resize(2 * self.__size)
+
         for i in range(self.__n - 1, index_ - 1, -1):
             self.__arr[i + 1] = self.__arr[i]
+
         self.__arr[index_] = item_
         self.__n += 1
 
     def __delitem__(self, index_):
         if index_ < 0 or index_ > self.__n:
-            print("IndexError")
+            raise Exception("Index error")
 
         if self.__n <= (self.__size / 2):
             self.__resize(self.__size / 2)
 
         for i in range(index_, self.__n - 1):
             self.__arr[i] = self.__arr[i + 1]
+
         self.__n -= 1
 
     def remove(self, item_):
@@ -191,13 +198,9 @@ if __name__ == "__main__":
 
     del arr[1]
     print(f"del arr[1]: {arr}")
-    print(f"del arr[100]:")
-    del arr[100]
 
     arr.remove(1)
     print(f"arr.remove(1): {arr}")
-    print("arr.remove(100):")
-    arr.remove(100)
 
     print(f"arr.pop(): {arr.pop()}")
     print(f"array after pop: {arr}")

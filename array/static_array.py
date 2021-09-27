@@ -65,7 +65,7 @@ class StaticArray(StaticArrayADT):
 
     def __getitem__(self, index_):
         if index_ < 0 or index_ > self.__n:
-            return "Index Error"
+            raise Exception("Index error")
         return self.__arr[index_]
 
     def clear(self):
@@ -91,7 +91,6 @@ if __name__ == "__main__":
     print(len(arr))
     print(arr.is_empty())
     print(arr[0])
-    print(arr[100])
     print(arr.contains(1))
     print(arr.contains(100))
     print(arr.search(5))
