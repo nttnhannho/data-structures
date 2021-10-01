@@ -17,9 +17,16 @@ class StaticArrayADT(ABC):
         pass
 
     @abstractmethod
+    def __setitem__(self, index_, item_):
+        """
+        Set item by index
+        """
+        pass
+
+    @abstractmethod
     def __getitem__(self, index_):
         """
-        Fetch an item by index
+        Fetch item by index
         """
         pass
 
@@ -33,7 +40,7 @@ class StaticArrayADT(ABC):
     @abstractmethod
     def search(self, item_):
         """
-        Search index of an item
+        Search index of item
         """
         pass
 
@@ -63,6 +70,11 @@ class StaticArray(StaticArrayADT):
     def __str__(self):
         return f"{[self.__arr[i] for i in range(self.__n)]}"
 
+    def __setitem__(self, index_, item_):
+        if index_ < 0 or index_ > self.__n:
+            raise Exception("Index error")
+        self.__arr[index_] = item_
+
     def __getitem__(self, index_):
         if index_ < 0 or index_ > self.__n:
             raise Exception("Index error")
@@ -75,14 +87,16 @@ class StaticArray(StaticArrayADT):
         for i in range(self.__n):
             if item_ == self.__arr[i]:
                 return i
-        print("Not Found")
         return -1
 
     def is_empty(self):
         return self.__n == 0
 
     def contains(self, item_):
-        return item_ in self.__arr
+        for i in range(self.__n):
+            if item_ == self.__arr[i]:
+                return True
+        return False
 
 
 if __name__ == "__main__":
@@ -95,6 +109,9 @@ if __name__ == "__main__":
     print(arr.contains(100))
     print(arr.search(5))
     print(arr.search(100))
+    print(arr)
+    arr[1] = 100
+    print(arr)
     arr.clear()
     print(arr)
     print(len(arr))

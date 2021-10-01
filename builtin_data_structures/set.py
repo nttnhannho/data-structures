@@ -15,6 +15,8 @@
 # symmetric_difference_update
 # update
 
+# frozenset
+
 
 if __name__ == "__main__":
     set_a = {1, 2, 3, 4, 5}
@@ -59,3 +61,6 @@ if __name__ == "__main__":
     set_a.update({100, 200, 300})  # Update the set with another set, or any other iterable
     # => {1, 2, 3, 100, 6, 7, 8, 200, 300}
     print(set_a)
+
+    frozen_set = frozenset([1, 1, 3, 4, 5])
+    print(frozen_set)
