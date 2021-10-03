@@ -5,6 +5,7 @@ class Node:
     def __init__(self, data_):
         self.data = data_
         self.next = None
+        self.prev = None
 
 
 class LinkedListADT(ABC):
@@ -134,8 +135,15 @@ class LinkedListADT(ABC):
         """
         pass
 
+    @abstractmethod
+    def from_backward(self):
+        """
+        Print the linked list from backward
+        """
+        pass
 
-class SinglyLinkedList(LinkedListADT):
+
+class DoublyLinkedList(LinkedListADT):
     def __init__(self):
         self.__head = None
 
@@ -184,7 +192,13 @@ class SinglyLinkedList(LinkedListADT):
 
     def push(self, node_):
         new_node = Node(node_)
+
+        if self.__head is None:
+            self.__head = new_node
+            return
+
         new_node.next = self.__head
+        self.__head.prev = new_node
         self.__head = new_node
 
     def append(self, node_):
@@ -198,6 +212,7 @@ class SinglyLinkedList(LinkedListADT):
         while current.next:
             current = current.next
         current.next = new_node
+        new_node.prev = current
 
     def append_all(self, nodes_):
         for node in nodes_:
@@ -211,6 +226,9 @@ class SinglyLinkedList(LinkedListADT):
             if current.data == target_node_:
                 new_node = Node(node_)
                 new_node.next = current.next
+                new_node.prev = current
+                if current.next:
+                    current.next.prev = new_node
                 current.next = new_node
                 break
             current = current.next
@@ -220,24 +238,24 @@ class SinglyLinkedList(LinkedListADT):
     def add_before(self, node_, target_node_):
         self.__check_empty()
 
-        new_node = Node(node_)
-
-        if self.__head.data == target_node_:
-            new_node.next = self.__head
-            self.__head = new_node
-            return
-
         current = self.__head
-        while current.next:
-            if current.next.data == target_node_:
-                new_node.next = current.next
-                current.next = new_node
+        while current:
+            if current.data == target_node_:
+                new_node = Node(node_)
+                new_node.next = current
+                new_node.prev = current.prev
+                if current.prev:
+                    current.prev.next = new_node
+                else:
+                    self.__head = new_node
+                current.prev = new_node
                 break
             current = current.next
         else:
             raise Exception(f"{target_node_} is not existed")
 
     def insert_at(self, index_, node_):
+        self.__check_empty()
         self.__check_valid_index(index_)
 
         if index_ == 0:
@@ -250,6 +268,8 @@ class SinglyLinkedList(LinkedListADT):
             if index == index_ - 1:
                 new_node = Node(node_)
                 new_node.next = current.next
+                new_node.prev = current
+                current.next.prev = new_node
                 current.next = new_node
                 break
             index += 1
@@ -258,53 +278,76 @@ class SinglyLinkedList(LinkedListADT):
     def peek_first(self):
         self.__check_empty()
 
+        if self.__head.next is None:
+            self.__head = None
+            return
+
         self.__head = self.__head.next
+        self.__head.prev = None
 
     def peek_last(self):
         self.__check_empty()
 
         if self.__head.next is None:
             self.__head = None
-        else:
-            current = self.__head
-            while current.next.next:
-                current = current.next
-            current.next = None
+            return
+
+        current = self.__head
+        while current.next:
+            current = current.next
+        current.prev.next = None
 
     def peek(self, node_):
         self.__check_empty()
 
+        if self.__head.next is None:
+            if self.__head.data == node_:
+                self.__head = None
+                return
+            else:
+                raise Exception(f"{node_} is not existed")
+
         if self.__head.data == node_:
             self.__head = self.__head.next
+            self.__head.prev = None
+            return
+
+        current = self.__head
+        while current.next:
+            if current.data == node_:
+                current.next.prev = current.prev
+                current.prev.next = current.next
+                break
+            current = current.next
         else:
-            current = self.__head
-            while current.next:
-                if current.next.data == node_:
-                    current.next = current.next.next
-                    break
-                current = current.next
+            if current.data == node_:
+                current.prev.next = None
             else:
                 raise Exception(f"{node_} is not existed")
 
     def peek_at(self, index_):
+        self.__check_empty()
         self.__check_valid_index(index_)
 
         if index_ == 0:
-            self.__head = self.__head.next
+            self.peek_first()
+            return
+
+        if index_ == len(self) - 1:
+            self.peek_last()
             return
 
         index = 0
         current = self.__head
-        while current:
-            if index == index_ - 1:
-                current.next = current.next.next
-                break
-            current = current.next
+        while current.next:
+            if index == index_:
+                current.next.prev = current.prev
+                current.prev.next = current.next
             index += 1
+            current = current.next
 
     def search(self, node_):
-        if self.__head is Node:
-            return -1
+        self.__check_empty()
 
         index = 0
         current = self.__head
@@ -319,8 +362,7 @@ class SinglyLinkedList(LinkedListADT):
         return self.__head is None
 
     def contains(self, node_):
-        if self.__head is None:
-            return False
+        self.__check_empty()
 
         current = self.__head
         while current:
@@ -332,6 +374,18 @@ class SinglyLinkedList(LinkedListADT):
     def clear(self):
         self.__head = None
 
+    def from_backward(self):
+        self.__check_empty()
+
+        chain = ""
+        current = self.__head
+        while current.next:
+            current = current.next
+        while current:
+            chain += str(current.data) + "->"
+            current = current.prev
+        return chain
+
     def __check_valid_index(self, index_):
         if index_ < 0 or index_ >= len(self):
             raise Exception("Index error")
@@ -342,4 +396,4 @@ class SinglyLinkedList(LinkedListADT):
 
 
 if __name__ == "__main__":
-    sll = SinglyLinkedList()
+    dll = DoublyLinkedList()

@@ -202,39 +202,3 @@ class DynamicArray(DynamicArrayADT):
 
 if __name__ == "__main__":
     arr = DynamicArray()
-    arr.append(1)
-    arr.append(2)
-    arr.append(3)
-    print(f"len: {len(arr)}")
-    print(f"arr: {arr}")
-    print(arr.is_empty())
-
-    print(f"arr[0]: {arr[0]}")
-    print(f"arr[1]: {arr[1]}")
-    print(f"arr[2]: {arr[2]}")
-
-    arr[0] = 200
-    print(arr)
-
-    arr.insert(1, 100)
-    print(f"len: {len(arr)}")
-    print(f"arr: {arr}")
-
-    del arr[1]
-    print(f"del arr[1]: {arr}")
-
-    arr.remove(3)
-    print(f"arr.remove(3): {arr}")
-
-    print(f"arr.pop(): {arr.pop()}")
-    print(f"array after pop: {arr}")
-
-    print(f"arr.search(2): {arr.search(2)}")
-    print(f"arr.search(100): {arr.search(100)}")
-
-    print(f"arr.contains(2): {arr.contains(2)}")
-    print(f"arr.contains(100): {arr.contains(100)}")
-
-    arr.clear()
-    print(f"array after clear: {arr}")
-    print(arr.is_empty())
