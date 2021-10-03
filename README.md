@@ -1,10 +1,10 @@
 # data-structures
-In this project, I will implement some popular data structures using Python programming language.
+In this project, I will implement popular data structures as well as modules using Python programming language.
 + Built-in:
-	- List
-	- Tuple
-	- Set
-	- Dict
+	- list
+	- tuple
+	- set
+	- dict
 + User-defined:
 	- Array
 	- Linked list
@@ -13,12 +13,11 @@ In this project, I will implement some popular data structures using Python prog
 	- Tree
 	- Hash Table
 	- Graph
-+ Collections:
-	- Counter
-	- Name Tuple
-	- Order Dict
-	- Default Dict
-	- Deque
-	- Frozen Set
-+ Bonus data type:
-	- String
++ Built-in modules:
+	- collections
+	- functools
+	- itertools
++ Bonus:
+	- str (data type)
+	- iterator
+	- contextmanager
