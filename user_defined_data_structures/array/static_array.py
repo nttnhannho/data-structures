@@ -101,18 +101,3 @@ class StaticArray(StaticArrayADT):
 
 if __name__ == "__main__":
     arr = StaticArray(1, 2, 3, 4, 5)
-    print(arr)
-    print(len(arr))
-    print(arr.is_empty())
-    print(arr[0])
-    print(arr.contains(1))
-    print(arr.contains(100))
-    print(arr.search(5))
-    print(arr.search(100))
-    print(arr)
-    arr[1] = 100
-    print(arr)
-    arr.clear()
-    print(arr)
-    print(len(arr))
-    print(arr.is_empty())
