@@ -52,7 +52,7 @@ class StaticArrayADT(ABC):
         pass
 
     @abstractmethod
-    def contains(self, item_):
+    def __contains__(self, item_):
         """
         Check if array contains given item
         """
@@ -92,7 +92,7 @@ class StaticArray(StaticArrayADT):
     def is_empty(self):
         return self.__n == 0
 
-    def contains(self, item_):
+    def __contains__(self, item_):
         for i in range(self.__n):
             if item_ == self.__arr[i]:
                 return True

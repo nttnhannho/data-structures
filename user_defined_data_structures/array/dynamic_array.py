@@ -88,7 +88,7 @@ class DynamicArrayADT(ABC):
         pass
 
     @abstractmethod
-    def contains(self, item_):
+    def __contains__(self, item_):
         """
         Check if array contains given item
         """
@@ -193,7 +193,7 @@ class DynamicArray(DynamicArrayADT):
     def is_empty(self):
         return self.__n == 0
 
-    def contains(self, item_):
+    def __contains__(self, item_):
         for i in range(self.__n):
             if self.__arr[i] == item_:
                 return True

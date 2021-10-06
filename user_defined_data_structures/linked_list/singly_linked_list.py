@@ -121,7 +121,7 @@ class LinkedListADT(ABC):
         pass
 
     @abstractmethod
-    def contains(self, node_):
+    def __contains__(self, node_):
         """
         Check if linked list contains given node
         """
@@ -318,7 +318,7 @@ class SinglyLinkedList(LinkedListADT):
     def is_empty(self):
         return self.__head is None
 
-    def contains(self, node_):
+    def __contains__(self, node_):
         if self.__head is None:
             return False
 
