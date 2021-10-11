@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from user_defined_data_structures.linked_list.singly_linked_list import SinglyLinkedList
 
 
 class StackADT(ABC):
@@ -29,10 +30,10 @@ class StackADT(ABC):
 
 class Stack(StackADT):
     def __init__(self):
-        self.__stack = []
+        self.__stack = SinglyLinkedList()
 
     def __str__(self):
-        return f"{[item for item in self.__stack]}"
+        return f"[{', '.join(str(self.__stack).strip('->').split('->'))}]"
 
     def __len__(self):
         return len(self.__stack)
@@ -41,10 +42,10 @@ class Stack(StackADT):
         self.__stack.append(item_)
 
     def pop(self):
-        return self.__stack.pop()
+        self.__stack.peek_last()
 
     def peek(self):
-        return self.__stack[-1]
+        return self.__stack[len(self.__stack) - 1]
 
     def is_empty(self):
         return len(self.__stack) == 0
@@ -52,8 +53,3 @@ class Stack(StackADT):
 
 if __name__ == "__main__":
     s = Stack()
-    s.push(1)
-    s.push(2)
-    s.push(3)
-    s.push(4)
-    print(s)

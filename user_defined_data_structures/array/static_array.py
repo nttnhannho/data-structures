@@ -31,6 +31,13 @@ class StaticArrayADT(ABC):
         pass
 
     @abstractmethod
+    def __contains__(self, item_):
+        """
+        Check if array contains given item
+        """
+        pass
+
+    @abstractmethod
     def clear(self):
         """
         Clear array
@@ -51,13 +58,6 @@ class StaticArrayADT(ABC):
         """
         pass
 
-    @abstractmethod
-    def __contains__(self, item_):
-        """
-        Check if array contains given item
-        """
-        pass
-
 
 class StaticArray(StaticArrayADT):
     def __init__(self, *args):
@@ -71,14 +71,20 @@ class StaticArray(StaticArrayADT):
         return f"{[self.__arr[i] for i in range(self.__n)]}"
 
     def __setitem__(self, index_, item_):
-        if index_ < 0 or index_ > self.__n:
-            raise Exception("Index error")
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
         self.__arr[index_] = item_
 
     def __getitem__(self, index_):
-        if index_ < 0 or index_ > self.__n:
-            raise Exception("Index error")
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
         return self.__arr[index_]
+
+    def __contains__(self, item_):
+        for i in range(self.__n):
+            if item_ == self.__arr[i]:
+                return True
+        return False
 
     def clear(self):
         self.__n = 0
@@ -92,11 +98,8 @@ class StaticArray(StaticArrayADT):
     def is_empty(self):
         return self.__n == 0
 
-    def __contains__(self, item_):
-        for i in range(self.__n):
-            if item_ == self.__arr[i]:
-                return True
-        return False
+    def __is_valid_index(self, index_):
+        return 0 <= index_ < self.__n
 
 
 if __name__ == "__main__":

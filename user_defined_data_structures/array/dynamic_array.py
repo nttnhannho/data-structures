@@ -53,6 +53,13 @@ class DynamicArrayADT(ABC):
         pass
 
     @abstractmethod
+    def __contains__(self, item_):
+        """
+        Check if array contains given item
+        """
+        pass
+
+    @abstractmethod
     def remove(self, item_):
         """
         Remove item
@@ -87,23 +94,16 @@ class DynamicArrayADT(ABC):
         """
         pass
 
-    @abstractmethod
-    def __contains__(self, item_):
-        """
-        Check if array contains given item
-        """
-        pass
-
 
 class DynamicArray(DynamicArrayADT):
+    @staticmethod
+    def __make_array(capacity_):
+        return (capacity_ * ctypes.py_object)()
+
     def __init__(self):
         self.__n = 0
         self.__size = 1
         self.__arr = DynamicArray.__make_array(self.__size)
-
-    @staticmethod
-    def __make_array(capacity_):
-        return (capacity_ * ctypes.py_object)()
 
     def __len__(self):
         return self.__n
@@ -112,13 +112,13 @@ class DynamicArray(DynamicArrayADT):
         return f"{[self.__arr[i] for i in range(self.__n)]}"
 
     def __setitem__(self, index_, item_):
-        if index_ < 0 or index_ > self.__n:
-            raise Exception("Index error")
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
         self.__arr[index_] = item_
 
     def __getitem__(self, index_):
-        if index_ < 0 or index_ > self.__n:
-            raise Exception("Index error")
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
         return self.__arr[index_]
 
     def append(self, item_):
@@ -138,8 +138,8 @@ class DynamicArray(DynamicArrayADT):
         self.__arr = new_arr
 
     def insert(self, index_, item_):
-        if index_ < 0 or index_ > self.__n:
-            raise Exception("Index error")
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
 
         if self.__n == self.__size:
             self.__resize(2 * self.__size)
@@ -151,8 +151,8 @@ class DynamicArray(DynamicArrayADT):
         self.__n += 1
 
     def __delitem__(self, index_):
-        if index_ < 0 or index_ > self.__n:
-            raise Exception("Index error")
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
 
         if self.__n <= (self.__size / 2):
             self.__resize(self.__size / 2)
@@ -161,6 +161,12 @@ class DynamicArray(DynamicArrayADT):
             self.__arr[i] = self.__arr[i + 1]
 
         self.__n -= 1
+
+    def __contains__(self, item_):
+        for i in range(self.__n):
+            if self.__arr[i] == item_:
+                return True
+        return False
 
     def remove(self, item_):
         if self.__n <= (self.__size / 2):
@@ -193,11 +199,8 @@ class DynamicArray(DynamicArrayADT):
     def is_empty(self):
         return self.__n == 0
 
-    def __contains__(self, item_):
-        for i in range(self.__n):
-            if self.__arr[i] == item_:
-                return True
-        return False
+    def __is_valid_index(self, index_):
+        return 0 <= index_ < self.__n
 
 
 if __name__ == "__main__":

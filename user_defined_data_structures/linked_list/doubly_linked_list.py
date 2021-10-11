@@ -1,6 +1,22 @@
 from abc import ABC, abstractmethod
 
 
+class EmptyLinkedListError(Exception):
+    def __init__(self, msg_):
+        self.__msg = msg_
+
+    def __str__(self):
+        return self.__msg
+
+
+class NodeNotFoundError(Exception):
+    def __init__(self, msg_):
+        self.__msg = msg_
+
+    def __str__(self):
+        return self.__msg
+
+
 class Node:
     def __init__(self, data_):
         self.data = data_
@@ -34,6 +50,13 @@ class LinkedListADT(ABC):
     def __len__(self):
         """
         Length of linked list
+        """
+        pass
+
+    @abstractmethod
+    def __contains__(self, node_):
+        """
+        Check if linked list contains given node
         """
         pass
 
@@ -122,13 +145,6 @@ class LinkedListADT(ABC):
         pass
 
     @abstractmethod
-    def __contains__(self, node_):
-        """
-        Check if linked list contains given node
-        """
-        pass
-
-    @abstractmethod
     def clear(self):
         """
         Clear linked list
@@ -156,8 +172,11 @@ class DoublyLinkedList(LinkedListADT):
         return chain
 
     def __setitem__(self, index_, node_):
-        self.__check_empty()
-        self.__check_valid_index(index_)
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
+
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
 
         index = 0
         current = self.__head
@@ -168,8 +187,11 @@ class DoublyLinkedList(LinkedListADT):
             current = current.next
 
     def __getitem__(self, index_):
-        self.__check_empty()
-        self.__check_valid_index(index_)
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
+
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
 
         index = 0
         current = self.__head
@@ -189,6 +211,17 @@ class DoublyLinkedList(LinkedListADT):
             count += 1
             current = current.next
         return count
+
+    def __contains__(self, node_):
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
+
+        current = self.__head
+        while current:
+            if current.data == node_:
+                return True
+            current = current.next
+        return False
 
     def push(self, node_):
         new_node = Node(node_)
@@ -219,7 +252,8 @@ class DoublyLinkedList(LinkedListADT):
             self.append(node)
 
     def add_after(self, node_, target_node_):
-        self.__check_empty()
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
 
         current = self.__head
         while current:
@@ -233,10 +267,11 @@ class DoublyLinkedList(LinkedListADT):
                 break
             current = current.next
         else:
-            raise Exception(f"{target_node_} is not existed")
+            raise NodeNotFoundError(f"{target_node_} is not existed")
 
     def add_before(self, node_, target_node_):
-        self.__check_empty()
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
 
         current = self.__head
         while current:
@@ -252,11 +287,14 @@ class DoublyLinkedList(LinkedListADT):
                 break
             current = current.next
         else:
-            raise Exception(f"{target_node_} is not existed")
+            raise NodeNotFoundError(f"{target_node_} is not existed")
 
     def insert_at(self, index_, node_):
-        self.__check_empty()
-        self.__check_valid_index(index_)
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
+
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
 
         if index_ == 0:
             self.push(node_)
@@ -276,17 +314,14 @@ class DoublyLinkedList(LinkedListADT):
             current = current.next
 
     def peek_first(self):
-        self.__check_empty()
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
 
-        if self.__head.next is None:
-            self.__head = None
-            return
-
-        self.__head = self.__head.next
-        self.__head.prev = None
+        self.__peek_node_at_first()
 
     def peek_last(self):
-        self.__check_empty()
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
 
         if self.__head.next is None:
             self.__head = None
@@ -298,14 +333,15 @@ class DoublyLinkedList(LinkedListADT):
         current.prev.next = None
 
     def peek(self, node_):
-        self.__check_empty()
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
 
         if self.__head.next is None:
             if self.__head.data == node_:
                 self.__head = None
                 return
             else:
-                raise Exception(f"{node_} is not existed")
+                raise NodeNotFoundError(f"{node_} is not existed")
 
         if self.__head.data == node_:
             self.__head = self.__head.next
@@ -323,18 +359,17 @@ class DoublyLinkedList(LinkedListADT):
             if current.data == node_:
                 current.prev.next = None
             else:
-                raise Exception(f"{node_} is not existed")
+                raise NodeNotFoundError(f"{node_} is not existed")
 
     def peek_at(self, index_):
-        self.__check_empty()
-        self.__check_valid_index(index_)
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
+
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
 
         if index_ == 0:
-            self.peek_first()
-            return
-
-        if index_ == len(self) - 1:
-            self.peek_last()
+            self.__peek_node_at_first()
             return
 
         index = 0
@@ -347,7 +382,8 @@ class DoublyLinkedList(LinkedListADT):
             current = current.next
 
     def search(self, node_):
-        self.__check_empty()
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
 
         index = 0
         current = self.__head
@@ -361,21 +397,12 @@ class DoublyLinkedList(LinkedListADT):
     def is_empty(self):
         return self.__head is None
 
-    def __contains__(self, node_):
-        self.__check_empty()
-
-        current = self.__head
-        while current:
-            if current.data == node_:
-                return True
-            current = current.next
-        return False
-
     def clear(self):
         self.__head = None
 
     def from_backward(self):
-        self.__check_empty()
+        if self.is_empty():
+            raise EmptyLinkedListError("Linked list is empty")
 
         chain = ""
         current = self.__head
@@ -386,13 +413,16 @@ class DoublyLinkedList(LinkedListADT):
             current = current.prev
         return chain
 
-    def __check_valid_index(self, index_):
-        if index_ < 0 or index_ >= len(self):
-            raise Exception("Index error")
+    def __is_valid_index(self, index_):
+        return 0 <= index_ < len(self)
 
-    def __check_empty(self):
-        if self.__head is None:
-            raise Exception("Linked list is empty")
+    def __peek_node_at_first(self):
+        if self.__head.next is None:
+            self.__head = None
+            return
+
+        self.__head = self.__head.next
+        self.__head.prev = None
 
 
 if __name__ == "__main__":
