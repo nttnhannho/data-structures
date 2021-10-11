@@ -372,6 +372,10 @@ class DoublyLinkedList(LinkedListADT):
             self.__peek_node_at_first()
             return
 
+        if index_ == len(self) - 1:
+            self.__peek_node_at_last()
+            return
+
         index = 0
         current = self.__head
         while current.next:
@@ -423,6 +427,16 @@ class DoublyLinkedList(LinkedListADT):
 
         self.__head = self.__head.next
         self.__head.prev = None
+
+    def __peek_node_at_last(self):
+        if self.__head.next is None:
+            self.__head = None
+            return
+
+        current = self.__head
+        while current.next:
+            current = current.next
+        current.prev.next = None
 
 
 if __name__ == "__main__":
