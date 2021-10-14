@@ -6,7 +6,7 @@ class EmptyLinkedListError(Exception):
         self.__msg = msg_
 
     def __str__(self):
-        return self.__msg
+        return f"{self.__msg}"
 
 
 class NodeNotFoundError(Exception):
@@ -14,7 +14,7 @@ class NodeNotFoundError(Exception):
         self.__msg = msg_
 
     def __str__(self):
-        return self.__msg
+        return f"{self.__msg}"
 
 
 class Node:
