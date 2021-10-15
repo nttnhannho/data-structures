@@ -31,6 +31,13 @@ class StaticArrayADT(ABC):
         pass
 
     @abstractmethod
+    def __contains__(self, item_):
+        """
+        Check if array contains given item
+        """
+        pass
+
+    @abstractmethod
     def clear(self):
         """
         Clear array
@@ -51,52 +58,48 @@ class StaticArrayADT(ABC):
         """
         pass
 
-    @abstractmethod
-    def contains(self, item_):
-        """
-        Check if array contains given item
-        """
-        pass
-
 
 class StaticArray(StaticArrayADT):
     def __init__(self, *args):
-        self.__n = len([*args])
+        self.__size = len([*args])
         self.__arr = [*args]
 
     def __len__(self):
-        return self.__n
+        return self.__size
 
     def __str__(self):
-        return f"{[self.__arr[i] for i in range(self.__n)]}"
+        return f"{[self.__arr[i] for i in range(self.__size)]}"
 
     def __setitem__(self, index_, item_):
-        if index_ < 0 or index_ > self.__n:
-            raise Exception("Index error")
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
         self.__arr[index_] = item_
 
     def __getitem__(self, index_):
-        if index_ < 0 or index_ > self.__n:
-            raise Exception("Index error")
+        if not self.__is_valid_index(index_):
+            raise IndexError("Index error")
         return self.__arr[index_]
 
+    def __contains__(self, item_):
+        for i in range(self.__size):
+            if item_ == self.__arr[i]:
+                return True
+        return False
+
     def clear(self):
-        self.__n = 0
+        self.__size = 0
 
     def search(self, item_):
-        for i in range(self.__n):
+        for i in range(self.__size):
             if item_ == self.__arr[i]:
                 return i
         return -1
 
     def is_empty(self):
-        return self.__n == 0
+        return self.__size == 0
 
-    def contains(self, item_):
-        for i in range(self.__n):
-            if item_ == self.__arr[i]:
-                return True
-        return False
+    def __is_valid_index(self, index_):
+        return 0 <= index_ < self.__size
 
 
 if __name__ == "__main__":
