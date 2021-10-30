@@ -4,14 +4,13 @@ In this project, I will implement popular data structures as well as modules usi
 	- list
 	- tuple
 	- set
-	- dict
+	- dict (Hashtable)
 + User-defined:
 	- Array
 	- Linked list
 	- Stack
 	- Queue
 	- Tree
-	- Hash Table
 	- Graph
 + Built-in modules:
 	- collections
