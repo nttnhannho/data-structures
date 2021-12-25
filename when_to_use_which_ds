@@ -1,0 +1,59 @@
+The data structure is a particular way of organizing data in a computer. The developer must choose the appropriate data structure for better performance.
+If the developer chooses a bad data structure, the system does not perform well. This article explains each data structure’s advantages and usage.
+
+1/ ARRAY
+The array is a data structure to store the same type of elements continuously. The developer can use an array in the following use cases:
+  + Need access to the elements using the index.
+  + Know the size of the array before defining the memory.
+  + Speed when iterating through all the elements in the sequence.
+  + The array takes less memory compare than a linked list.
+  
+2/ Linked List
+The linked list is a data structure that links each node to the next node. The developer can use the linked list in the following use cases:
+  + When the developer needs constant time for insertion and deletion.
+  + When the data dynamically grows.
+  + Do not access random elements from the linked list.
+  + Insert the element in any position of the list.
+
+3/ Doubly Linked List
+Doubly linked is a data structure in which each node contains data and two links. One link point to the previous node and another link point to the next node.
+The developer can use a doubly linked list in the following uses cases:
+  + Easier to delete the node from the doubly linked list.
+  + It can be iterated in reverse order without recursion implementation.
+  + Insert or remove from double-linked lists faster.
+ 
+4/ Circular Linked List
+A circular linked list is a linked list in which the link field of the tail node link to the head node. The developer can use a circular linked list in the following use cases:
+  + Develop the buffer memory.
+  + Represent a deck of cards in a game.
+  + Browser cache allows hitting the BACK button.
+  + Implement the Most Recently Used (MRU) list.
+  + Undo functionality in Photoshop or Word.
+
+5/ Stack
+The stack is a last-in, first-out (LIFO) data structure. The developer can use the stack in the following use cases:
+  + Expression evaluation and syntax parsing.
+  + Finding the correct path in a maze using backtracking.
+  + Runtime memory management.
+  + Recursion function.
+
+6/ Queue
+The queue is a first in, first-out (FIFO) data structure. The developer can use Queue in the following use cases:
+  + Use a queue when the developer wants an order.
+  + Processed in First In First Out order.
+  + If the developer wants to add or remove both ends, they can use the queue or a double-ended queue.
+
+7/ Binary Tree
+A binary tree is a tree data structure in which each node has at most two child nodes. The developer can use Binary Tree in the following use cases:
+  + Find the name in the phone book.
+  + Sorted traversal of the tree.
+  + Find the next closest element.
+  + Find all elements less than or greater than a certain value.
+
+8/ Binary Search Tree
+A binary search tree is a tree data structure in which the root node is less than or equal to the left subtree and greater than or equal to the right subtree.
+The developer can use Binary Search Tree in the following use cases:
+  + Binary Search Trees are memory-efficient.
+  + Use when the data need to be sorted.
+  + Search can be done for a range of values.
+  + Height balancing helps to reduce the running time.
