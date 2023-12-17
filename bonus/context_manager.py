@@ -1,4 +1,4 @@
-class ManageFile:
+class FileManager:
     def __init__(self, file_path, mode):
         self.file_path = file_path
         self.mode = mode
@@ -23,11 +23,11 @@ class ManageFile:
 
 
 def main(): 
-	with ManageFile('test.txt', 'w') as f:
+	with FileManager('test.txt', 'w') as f:
 		f.write('Example text\n')
 		f.write('Nhan Nguyen')
 
-	with ManageFile('test.txt', 'r') as f:
+	with FileManager('test.txt', 'r') as f:
 		f.read()
 
 
