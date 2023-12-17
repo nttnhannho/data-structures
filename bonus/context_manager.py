@@ -1,33 +1,35 @@
-from contextlib import contextmanager
-
-
 class ManageFile:
-    def __init__(self, filename_):
-        self.__filename = filename_
-
+    def __init__(self, file_path, mode):
+        self.file_path = file_path
+        self.mode = mode
+        self.file = None
+    
     def __enter__(self):
-        print("Enter...")
-        self.__file = open(self.__filename, 'w')
-        return self.__file
-
+        self.file = open(self.file_path, self.mode)
+        return self
+    
     def __exit__(self, exc_type, exc_val, exc_tb):
-        print("Exit...")
-        if self.__file:
-            self.__file.close()
+    	if self.file:
+    		self.file.close()
+    
+    def write(self, text):
+    	if self.mode == 'w':
+    		self.file.write(text)
+    
+    def read(self):
+    	if self.mode == 'r':
+    		for line in self.file:
+    			print(line)
 
 
-@contextmanager
-def open_managed_file(filename):
-    file = open(filename, "w")
-    try:
-        yield file
-    finally:
-        file.close()
+def main(): 
+	with ManageFile('test.txt', 'w') as f:
+		f.write('Example text\n')
+		f.write('Nhan Nguyen')
+
+	with ManageFile('test.txt', 'r') as f:
+		f.read()
 
 
-if __name__ == "__main__":
-    with ManageFile("note.txt") as f:
-        f.write("Test...")
-
-    with open_managed_file("note2.txt") as f:
-        f.write("Test2...")
+if __name__ == '__main__':
+	main()
